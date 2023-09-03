@@ -1,0 +1,34 @@
+
+function connect_vpn_radar() {
+    printf "`cat ~/.vpn/radar/credentials`\n" | openvpn3 session-start --config ~/.vpn/radar/cert.ovpn
+}
+
+function connect_vpn_geo() {
+    printf "`cat ~/.vpn/geo/credentials`\n" | openvpn3 session-start --config ~/.vpn/geo/cert.ovpn
+}
+
+function login_develop() {
+    local token=$(curl 'https://id-develop.radarsaude.com.br/api/id/login' \
+        -s \
+        -H 'sec-ch-ua: "Google Chrome";v="113", "Chromium";v="113", "Not-A.Brand";v="24"' \
+        -H 'sec-ch-ua-mobile: ?0' \
+        -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36' \
+        -H 'Content-Type: application/json' \
+        -H 'Accept: application/json' \
+        -H 'Referer: http://develop.radarsaude.net.br/' \
+        -H 'sec-ch-ua-platform: "Linux"' \
+        --data-raw $'{"username":"USERNAME","password":"PASSWORD"}' \
+        --compressed | jq -r '.token')
+
+    echo Bearer $(curl 'https://id-develop.radarsaude.com.br/api/id/me?apresentacao=false' \
+        -s \
+        -H 'sec-ch-ua: "Google Chrome";v="113", "Chromium";v="113", "Not-A.Brand";v="24"' \
+        -H 'sec-ch-ua-mobile: ?0' \
+        -H "Authorization: Bearer $token" \
+        -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36' \
+        -H 'Accept: application/json' \
+        -H 'Referer: http://develop.radarsaude.net.br/' \
+        -H 'X-TenantId: 4104808' \
+        -H 'sec-ch-ua-platform: "Linux"' \
+        --compressed | jq -r '.token')
+}

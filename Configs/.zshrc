@@ -1,6 +1,8 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
+export PATH=$HOME/.local/bin/lvim:$PATH  
+
 # Path to your oh-my-zsh installation.
 #export ZSH="$HOME/.oh-my-zsh"
 ZSH=/usr/share/oh-my-zsh/
@@ -76,6 +78,7 @@ plugins=(git)
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
 source $ZSH/oh-my-zsh.sh
+source ~/.zshrc-functions
 
 # User configuration
 
@@ -114,7 +117,23 @@ alias pl='pacman -Qs' # list installed package
 alias pa='pacman -Ss' # list availabe package
 alias pc='sudo pacman -Sc' # remove unused cache
 alias po='pacman -Qtdq | sudo pacman -Rns -' # remove unused packages, also try > pacman -Qqd | pacman -Rsu --print -
-alias vc='code'  # gui code editor
+
+# Custom aliases
+alias p='cd ~/Documents/Projects'
+alias g='lazygit'
+alias grep='grep --color=auto'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias dotconfig='lvim ~/Hyprdots/Configs'
+
+alias df='df -h'     # human-readable sizes
+alias free='free -m' # show sizes in MB
+
+# get top process eating memory
+alias psmem='ps auxf | sort -nr -k 4 | head -5'
+
+# get top process eating cpu ##
+alias pscpu='ps auxf | sort -nr -k 3 | head -5'
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
