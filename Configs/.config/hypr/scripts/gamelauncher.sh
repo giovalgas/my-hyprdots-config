@@ -17,7 +17,7 @@ SteamLib="$HOME/.local/share/Steam/config/libraryfolders.vdf"
 SteamThumb="$HOME/.local/share/Steam/appcache/librarycache"
 
 if [ ! -f $SteamLib ] || [ ! -d $SteamThumb ] || [ ! -f $RofiConf ] ; then
-    dunstify $ncolor "theme" -a "// Steam library not found..." -r 91190 -t 2200
+    dunstify $ncolor "theme" -a "Steam library not found!" -i "~/.config/dunst/icons/hyprdots.png" -r 91190 -t 2200
     exit 1
 fi
 
@@ -59,7 +59,7 @@ done | rofi -dmenu -theme-str "${r_override}" -config $RofiConf)
 # launch game
 if [ ! -z "$RofiSel" ] ; then
     launchid=`echo "$GameList" | grep "$RofiSel" | cut -d '|' -f 2`
-    steam -applaunch ${launchid} [gamemoderun %command%] &
+    steam -applaunch "${launchid} [gamemoderun %command%]" &
     dunstify $ncolor "theme" -a "Launching ${RofiSel}..." -i ${SteamThumb}/${launchid}_header.jpg -r 91190 -t 2200
 fi
 

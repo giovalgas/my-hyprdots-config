@@ -76,9 +76,9 @@ getWall=`grep '^1|' $ThemeCtl | cut -d '|' -f 3`
 getWall=`eval echo $getWall`
 getName=`basename $getWall`
 ln -fs $getWall $ConfDir/swww/wall.set
-ln -fs $WallCache/${ThemeSet}/rofi.${getName} $ConfDir/swww/wall.rofi
-ln -fs $WallCache/${ThemeSet}/blur.${getName} $ConfDir/swww/wall.blur
-$ConfDir/hypr/scripts/swwwallpaper.sh
+ln -fs $WallCache/${ThemeSet}/${getName}.rofi $ConfDir/swww/wall.rofi
+ln -fs $WallCache/${ThemeSet}/${getName}.blur $ConfDir/swww/wall.blur
+$BaseDir/swwwallpaper.sh
 
 if [ $? -ne 0 ] ; then
     echo "ERROR: Unable to set wallpaper"
@@ -111,10 +111,6 @@ flatpak --user override --env=GTK_THEME="${ThemeSet}"
 flatpak --user override --env=ICON_THEME="${IconSet}"
 
 
-# rofi
-ln -fs $ConfDir/rofi/themes/${ThemeSet}.rasi $ConfDir/rofi/themes/theme.rasi
-
-
 # hyprland
 ln -fs $ConfDir/hypr/themes/${ThemeSet}.conf $ConfDir/hypr/themes/theme.conf
 hyprctl reload
@@ -131,6 +127,6 @@ fi
 dunstify $ncolor "theme" -a " ${ThemeSet}" -i "~/.config/dunst/icons/hyprdots.png" -r 91190 -t 2200
 
 
-# waybar
-$ConfDir/waybar/wbarconfgen.sh
+# rofi & waybar
+$BaseDir/swwwallbash.sh $getWall
 
